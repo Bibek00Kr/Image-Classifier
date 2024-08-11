@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Image Analyzer</title>
+</head>
+<style>
+    body {
+        background-color: antiquewhite;
+    }
+
+    h1,
+    h2,
+    p {
+        text-align: center;
+    }
+
+    .img {
+        display: flex;
+        justify-content: center;
+    }
+
+    .box {
+        border: 3px solid black;
+        margin: 30px;
+        padding: 20px;
+        border-radius: 40px;
+    }
+
+    img {
+        border-radius: 30px;
+    }
+</style>
+
+<body>
+
+
+    <div class="box">
+        <h1>Let me see the Image🤔</h1>
+        <h2>Alright Let me Guess</h2>
+        <div id="myResult">
+            <p>Scanning ...</p>
+        </div>
+        <div class="img">
+            <img id="myImage" src="bird.jpeg" width="40%%">
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.js"></script>
+    <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
+    <script>
+        let classifier;
+        let img;
+        classifier = ml5.imageClassifier("MobileNet");
+        img = document.getElementById("myImage");
+        classifier.classify(img, gotResult);
+        function gotResult(results) {
+            let label = results[0].label;
+            let confidence = (results[0].confidence * 100).toFixed(2);
+            document.getElementById("myResult").innerHTML = label + "<br>Confidence: " + confidence + "%";
+        }
+    </script>
+</body>
+
+
+</html>
